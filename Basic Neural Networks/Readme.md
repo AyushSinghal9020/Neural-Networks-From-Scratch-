@@ -1,4 +1,4 @@
-# Neural Networkds
+# Neural Networks
 
 Neural networks, also known as artificial neural networks, are a type of machine learning algorithm that is inspired by the structure and function of the human brain. They are composed of multiple interconnected nodes or neurons, organized into layers that perform complex computations on input data.
 
