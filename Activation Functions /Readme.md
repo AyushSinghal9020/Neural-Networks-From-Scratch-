@@ -14,8 +14,8 @@ There are majorly diffrent types of activation function
 * Softmax
 * Softplus
 * Softsign
-* Selu
-* Elu
+* Selu(Scalable Exponential Linear Activation Function)
+* Elu(Exponential Linear Activation Function)
 * Exponential
 
 **Modules Used**
