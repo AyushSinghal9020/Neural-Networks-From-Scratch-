@@ -8,8 +8,7 @@ Overall, the Softplus activation function has become increasingly popular in neu
 
 Formula $$f(x) = log(1 + e^x)$$
 ```
-import math as m 
 import numpy as np 
 
-x = np.log(1 + m.e ** x)
+x = np.log(1 + np.exp(x))
 ```
