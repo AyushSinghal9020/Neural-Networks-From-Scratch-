@@ -20,6 +20,5 @@ There are majorly diffrent types of activation function
 
 **Modules Used**
 * Numpy 
-* Math
 * IPython
 * Seaborn
