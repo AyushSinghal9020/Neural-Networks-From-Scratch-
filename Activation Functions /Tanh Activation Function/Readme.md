@@ -11,7 +11,7 @@ Overall, the exponential activation function can be a useful tool in certain neu
 Formula $$f(x) = e^x$$
 
 ```
-import math as m
+import numpy as np
 
-x = m.e ** x
+x = np.exp(x)
 ```
