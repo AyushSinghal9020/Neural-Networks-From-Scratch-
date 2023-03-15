@@ -1,4 +1,6 @@
-def rms_prop(columns , rho = 0.999 , lr = 0.01 , epochs = 100 , epsilon = 1e-7):
+import numpy as np
+
+def rms_prop(columns , rho = 0.999 , lr = 0.01 , epochs = 100 , epsilon = 1e-7 , r = 0.95 , k = 0.001):
     
     params = np.random.ran(len(columns)) * 0.1
     
