@@ -38,6 +38,6 @@ def rms_prop(columns , lr = 0.001 , beta = 0.9 , epochs = 100 , epsilon = 1e-7):
 
         gradient_sum += np.array(gradient)
 
-        params = params - np.dot((lr/ np.sqrt(gradient + epsilon) , gradient_sum)
+        params = params - np.dot((lr/ np.sqrt(gradient + epsilon)) , gradient_sum)
 
     return params 
