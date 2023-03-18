@@ -1,4 +1,4 @@
-def rms_prop(columns , lr = 0.001 , beta = 0.9 , epochs = 100):
+def rms_prop(columns , lr = 0.001 , beta = 0.9 , epochs = 100 , epsilon = 1e-7):
     
     updated_gradient = np.empty(shape = (2,2))
     gradient_rec = []
@@ -6,7 +6,7 @@ def rms_prop(columns , lr = 0.001 , beta = 0.9 , epochs = 100):
     
     for epochs in range(epochs):
     
-        if k == 0 or k == 1:
+        if epochs == 0 or epochs == 1:
     
             gradient = gradient
     
@@ -38,6 +38,6 @@ def rms_prop(columns , lr = 0.001 , beta = 0.9 , epochs = 100):
 
         gradient_sum += np.array(gradient)
 
-        params = params - np.dot((lr/ gradient) , gradient_sum)
+        params = params - np.dot((lr/ np.sqrt(gradient + epsilon) , gradient_sum)
 
     return params 
