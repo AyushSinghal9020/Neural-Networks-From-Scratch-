@@ -1,4 +1,4 @@
-RMS Porp
+# RMS Porp
 RMSprop (Root Mean Square Propagation) is a popular optimization algorithm used in deep learning to update the parameters of a neural network. It was introduced by Geoffrey Hinton in 2012 as an improvement over the standard stochastic gradient descent (SGD) optimizer.
 
 The main idea behind RMSprop is to adjust the learning rate for each weight based on the average of the squared gradients for that weight. The algorithm keeps track of an exponential moving average of the squared gradients, which is then used to normalize the learning rate for each weight. This normalization prevents the learning rate from becoming too small or too large, which can slow down the training process or cause it to diverge.
