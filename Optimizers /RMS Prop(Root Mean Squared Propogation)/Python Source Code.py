@@ -1,17 +1,43 @@
-def rms_prop(columns , rho = 0.999 , lr = 0.01 , epochs = 100):
+def rms_prop(columns , lr = 0.001 , beta = 0.9 , epochs = 100):
     
-    params = np.random.ran(len(columns)) * 0.1
+    updated_gradient = np.empty(shape = (2,2))
+    gradient_rec = []
+    gradient_sum = np.zeros(shape = (len(columns) , 2))
     
-    gradient = [params[:len(columnes) - 2] * 2 , params[-1] * 2]
+    for epochs in range(epochs):
     
-    step_size = np.random.rand(len(columnes)) * 0.1
+        if k == 0 or k == 1:
     
-    for i in range(len(gradient)):
+            gradient = gradient
     
-        gradient[i] = (gradient[i] * rho) + ((gradeint[i] ** 2) * lr)
+        else :
     
-        for i in range(epochs) : 
+            if np.all(np.array(gradient_rec[epochs-2]) > np.array(gradient_rec[epochs-1])):
     
-            step_size = step_size / (1e-8 + np.array(gradient[i]))
+                gradient = gradient_rec[epochs-2]
+    
+            else :
+    
+                gradient = gradient_rec[epochs-1]
+    
+        for parameters in range(2):
+    
+            upda_gradient = np.empty(shape = (len(columns),))
+    
+            for values in range(2):
+    
+                up_gradient = beta * gradient[parameters][values] ** 2 + (1 - beta) * gradient[parameters][values]
+    
+                upda_gradient = np.hstack([upda_gradient , up_gradient])
+                upda_gradient = np.delete(upda_gradient , 0  , 0)
+    
+            updated_gradient = np.vstack([updated_gradient , upda_gradient])
+            updated_gradient = np.delete(updated_gradient , 0 , 0)
+    
+        gradient_rec.append(updated_gradient)
 
-    return step_size
+        gradient_sum += np.array(gradient)
+
+        params = params - np.dot((lr/ gradient) , gradient_sum)
+
+    return params 
