@@ -1,23 +1,68 @@
-def rms_prop(columns , rho = 0.999 , lr = 0.01 , epochs = 100 , epsilon = 1e-7):
-    
-    params = np.random.ran(len(columns)) * 0.1
-    
-    gradient = [params[:len(columns) - 2] * 2 , params[-1] * 2]
-    
-    step_size = np.random.rand(len(columns)) * 0.1
+import numpy as np
+from numpy import random
 
-    gradient_sum = 0
-    
-    for i in range(len(gradient)):
-        
-        gradient[i] = (gradient[i]) + ((gradient[i] ** 2) * lr)
-        
-        lr = lr/np.sqrt(gradient_sum + epsilon)
-        
-        gradient_sum +=gradient[i]
-    
-        for i in range(epochs) : 
-    
-            step_size = step_size * lr
+class root_mean_square_propogation_gradient_descent:
 
-    return step_size
+    def __init__(self , 
+                 features , target , 
+                 learning_rate = 0.01 , epochs = 100 , 
+                 beta = 0.9 , epsilon = 1e-7):
+
+        self.X = features
+        self.Y = target
+        self.lr = learning_rate
+        self.epochs = epochs
+        self.beta = beta
+
+    def initialize(self , X):
+    
+        biases = random.random()
+        weights = random.rand(self.X.shape[0])
+
+        return biases , weights
+
+    def predict(self , biases , weights , X):
+        
+        predicted_values = biases + np.dot(self.X.T , weights)
+
+        return predicted_values
+    
+    def cost(self , predicted_values , Y):
+        
+        costing = self.Y - predicted_values
+
+        return costing
+    
+    def update(self , predicted_values , biases , weights , epoch_number):
+
+          weights_rec = []
+          biases_rec = []
+
+          if epoch_number == 0:
+
+            params_weights = self.beta * weights + (1 - self.beta) * (weights**2)
+            params_biases = self.beta * biases + (1 - self.beta) * (biases ** 2)
+
+            weights = -(self.lr / np.sqrt(params_weights + self.epsilon)) * weights
+            biases = -(self.lr / np.sqrt(params_biases + self.epsilon)) * biases
+
+            weights_rec.append(weights)
+            biases_rec.append(biases)
+
+          else : 
+
+            params_weights = self.beta * weights_rec[epoch_number - 1] + (1 - self.beta) * (weights_rec[epoch_number - 1]**2)
+            params_biases = self.beta * biases_rec[epoch_number - 1] + (1 - self.beta) * (biases_rec[epoch_number - 1] ** 2)
+
+            weights = -(self.lr / np.sqrt(params_weights + self.epsilon)) * weights_rec[epoch_number - 1]
+            biases = -(self.lr / np.sqrt(params_biases + self.epsilon)) * biases_rec[epoch_number - 1]
+
+            
+
+    def forward(self):
+        for epoch_number in range(self.epochs):
+            self.predict(biases , weights , self.X)
+            self.cost(predicted_values , self.y)
+            self.update(predicted_values , biases , weights)
+
+        return self.new_biases , self.new_weights
