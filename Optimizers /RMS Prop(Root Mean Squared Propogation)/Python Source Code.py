@@ -1,7 +1,7 @@
 import numpy as np
 from numpy import random
 
-class root_mean_square_propogation_gradient_descent:
+class simple_gradient_descent:
 
     def __init__(self , 
                  features , target , 
@@ -18,8 +18,10 @@ class root_mean_square_propogation_gradient_descent:
     
         biases = random.random()
         weights = random.rand(self.X.shape[0])
-
-        return biases , weights
+        weights_sum = 0
+        biases_sum = 0
+    
+        return biases , weights , weights_sum , biases_sum
 
     def predict(self , biases , weights , X):
         
@@ -33,7 +35,7 @@ class root_mean_square_propogation_gradient_descent:
 
         return costing
     
-    def update(self , predicted_values , biases , weights , epoch_number):
+    def update(self , predicted_values , biases , weights , epoch_number , weights_sum , biases_sum):
 
           weights_rec = []
           biases_rec = []
@@ -54,10 +56,14 @@ class root_mean_square_propogation_gradient_descent:
             params_weights = self.beta * weights_rec[epoch_number - 1] + (1 - self.beta) * (weights_rec[epoch_number - 1]**2)
             params_biases = self.beta * biases_rec[epoch_number - 1] + (1 - self.beta) * (biases_rec[epoch_number - 1] ** 2)
 
-            weights = -(self.lr / np.sqrt(params_weights + self.epsilon)) * weights_rec[epoch_number - 1]
-            biases = -(self.lr / np.sqrt(params_biases + self.epsilon)) * biases_rec[epoch_number - 1]
+            weights = -(self.lr / np.sqrt(params_weights + self.epsilon)) * weights_sum
+            biases = -(self.lr / np.sqrt(params_biases + self.epsilon)) * biases_sum
 
-            
+            weight_sum += weights
+            biases_sum += biases
+
+            weights_rec.append(weights)
+            biases_rec.append(biases)
 
     def forward(self):
         for epoch_number in range(self.epochs):
