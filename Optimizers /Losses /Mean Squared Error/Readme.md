@@ -1,5 +1,7 @@
 # MSE (Mean Sqaured Error) 
 
+<img src = "https://ambrapaliaidata.blob.core.windows.net/ai-storage/articles/2.png">
+
 Mean Squared Error (MSE) is a common metric used to measure the performance of regression models. It measures the average squared difference between the predicted and actual values of a given dataset.
 
 To calculate the MSE, you need to take the difference between the predicted and actual values for each data point in the dataset, square the difference, and then take the average of all these squared differences. This provides an overall measure of how well the model is performing in terms of predicting the target variable.
