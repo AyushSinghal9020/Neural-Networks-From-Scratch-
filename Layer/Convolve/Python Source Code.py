@@ -1,21 +1,25 @@
-class ConvolutionLayer:
-    
-    def __init__(self, kernel_num, kernel_size):
-    
-        self.kernel_num = kernel_num
-        self.kernel_size = kernel_size        
-        self.kernels = np.random.randn(kernel_num, kernel_size, kernel_size) / (kernel_size**2)
+import scipy
+import numpy as np 
 
-    def patches_generator(self, image):
+def convolve(image , kernel):
     
-        image_h, image_w = image.shape
+    if image.shape[2] == 3:
     
-        self.image = image
+        test_image = np.reshape(image , newshape = (3 , image.shape[0] , image.shape[1]))
     
-        for h in range(image_h-self.kernel_size+1):
+    else :
     
-            for w in range(image_w-self.kernel_size+1):
+        test_image = image
     
-                patch = image[h:(h+self.kernel_size), w:(w+self.kernel_size)]
+    sample = np.empty(shape = test_image.shape)
     
-                yield patch, h, w
+    for channels in range(test_image.shape[0]):
+    
+        sample = np.vstack([sampel , 
+                            scipy.signal.convolve2d(test_image[channels] , kernel , "same")
+    
+        sample = np.delete(sample , 0 , 0)
+    
+    sample = np.reshape(sample , newshape = (sample.shape[1] , sample.shape[2] , sample.shape[0]))
+
+    return sample
