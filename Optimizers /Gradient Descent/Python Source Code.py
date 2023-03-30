@@ -104,3 +104,76 @@ class simple_gradient_descent:
             self.update(predicted_values , biases , weights)
 
         return self.new_biases , self.new_weights
+    
+# METHOD 3
+def MSE(predicted , actual):
+    
+    error = ((predicted - actual) ** 2).mean()
+
+    return error
+def MAE(predicted , actual):
+    
+    error = (abs(predicted - actual)).mean()
+
+    return error
+def CCE(predicted , actual):
+    
+    for _ in classes :
+        
+        for _ in list_of_values:
+        
+            error = 0
+            error += predicted * np.log1p(predicted)
+
+    return error
+
+def Gradient_Descent(X_train , Y_train , loss_func = "MSE" , epochs = 100 , lr = 0.01):
+    
+    def initialize(number_of_features):
+    
+        weights = np.random.randn(number_of_features) * 0.1
+        biases = np.random.randn(1) * 0.1
+
+        params = np.array([weights , biases])
+
+    def predict(weights , biases , X_test):
+        
+        predicted_values = (weights * X_test) + biases
+
+        return predicted_values
+
+    def backward(Y_train , predicted , loss_func):
+    
+        if loss_func == "MSE" : 
+            
+            MAE(Y_train , predicted)
+        
+        elif loss_func == "MAE" : 
+            
+            MAE(Y_train , predicted)
+        
+        elif loss_func == "CCE" : 
+            
+            CCE(Y_train , predicted)
+
+
+        return loss
+    
+    def forward(X_train , Y_train , epochs , lr):
+    
+        initialize(len(X_train.columns))
+    
+        for _ in range(epochs):
+    
+            predict(weights , biases , X_train)
+            backward(Y_train , predicted_values)
+    
+            weights = weights - (lr * loss)
+            biases = biases - (lr * loss)
+
+    forward(X_train , Y_train , epochs , lr)
+
+    new_params = np.array([weights , biases])
+
+    return new_params
+     
