@@ -1,5 +1,5 @@
 # ELU (Exponential Linear Unit Activation Function)
-<img src = "https://deeplearninguniversity.com/wp-content/uploads/2020/06/Screenshot-2020-06-05-at-7.25.29-PM.png">
+<img src = "https://i.stack.imgur.com/7aiVh.png">
 
 The Exponential Linear Unit (ELU) is an activation function that is commonly used in deep learning neural networks. It was proposed as a solution to some of the drawbacks of the Rectified Linear Unit (ReLU) activation function.
 
