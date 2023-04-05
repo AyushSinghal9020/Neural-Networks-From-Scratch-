@@ -12,4 +12,8 @@ In addition to convolutional layers, image preprocessing is another important as
 
 $$Y_i = B_i + \sum\limits_{i = 1}^{n}(x_{ij} * k_{ij})$$
 
+**Note** - This notebook is hiogly inspired by this [Yoututbe Video](https://www.youtube.com/watch?v=KuXjwB4LzSA)
+
+**KUDOS TO THE TEACHER**
+
 [Image Credits](https://www.youtube.com/watch?v=KuXjwB4LzSA)
