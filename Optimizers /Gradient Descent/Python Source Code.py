@@ -1,22 +1,28 @@
 # METHOD 1
 
-def SGD(X , y , learning_rate = 0.01):
+def SGD(X , y , learning_rate = 0.01 , momentum = 0):
     
     weights = abs(np.random.randn(X.shape[1]))
     biases = abs(np.random.randn(1))
 
+    m_weights = [0] * (100 + 1)
+    m_biases = [0] * (100 + 1)
+
     predic = []
     losses = []
 
-    for _ in range(100):
+    for epochs in range(100):
 
         pred = np.sum((weights * X).T) + biases
         
-        loss = np.sum((pred - y) ** 2)
+        loss = np.sum(pred - y)
         losses.append(loss)
+
+        m_weights[epochs + 1] = momentum * m_weights[epochs] + (1 - momentum) * (-2 * loss)
+        m_biases[epochs + 1] = momentum * m_biases[epochs] + (1 - momentum) * (-2 * loss)
         
-        weights -= -2 * loss * learning_rate
-        biases -= -2 * loss * learning_rate
+        weights -= m_weights[epochs + 1] * 0.01
+        biases -= m_biases[epochs + 1] * 0.01
 
     return weights , biases , losses
 
