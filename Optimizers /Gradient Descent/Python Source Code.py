@@ -86,6 +86,9 @@ class SGD:
                 self.m_weights[epochs + 1] = self.ema_momentum * self.momentum[epochs] + (1 - self.ema_momentum) * (self.m_weights[epochs + 1])
                 self.m_biases[epochs + 1] = self.ema_momentum * self.momentum[epochs] + (1 - self.ema_momentum) * (self.m_biases[epochs + 1])
                 
+                
+        def minimize(self):
+            
             if self.clip_norm != None:
                 
                 weights = np.clip(weights , weights , self.clip_norm)
