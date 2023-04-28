@@ -1,52 +1,102 @@
 # METHOD 1
 
-def SGD(X , y , learning_rate = 0.01 , momentum = 0 , nestrov = False , weight_decay = None , clip_norm = None , clip_value = None):
+class SGD:
     
-    weights = abs(np.random.randn(X.shape[1]))
-    biases = abs(np.random.randn(1))
-    
-    m_weights = [0] * (100 + 1)
-    m_biases = [0] * (100 + 1)
-    
-    predic = []
-    losses = []
-    
-    for epochs in range(100):
-    
-        pred = np.sum((weights * X).T) + biases
+    def __init__(self , 
+                 X , y , 
+                 learning_rate = 0.01 , momentum = 0 , 
+                 nestrov = False , weight_decay = 0 , 
+                 clip_norm = None , clip_value = None , 
+                 use_ema = False , ema_momentum = 0):
         
-        loss = np.sum((pred - y) ** 2)
-        losses.append(loss)
+        self.X = X
+        self.y = y
+        self.learning_rate = learning_rate
+        self.momentum = momentum
+        self.nestrov = nestrov
+        self.weight_decay = weight_decay
+        self.clip_norm = clip_norm
+        self.clip_value = clip_value
+        self.use_ema = use_ema
+        self.ema_momentum = ema_momentum
+    
+    def build(self , weights = None , biases = None):
         
-        if nestrov :
-
-            m_weights[epochs + 1] = ((momentum * m_weights[epochs]) + ((1 - momentum) * (weights - momentum * m_weights[epochs])) * (-2 * loss)) 
-            m_biases[epochs + 1] = ((momentum * m_biases[epochs]) + ((1 - momentum) * (weights - momentum * m_biases[epochs])) * (-2 * loss))
-
+        if weights == None:
+            
+            self.weights = abs(np.random.randn(self.X.shape[0]))
+        
         else :
+            
+            if weights.shape[0] == self.X.shape[1]:
+                
+                self.weights = weights
+            
+            else :
+                
+                self.weights = abs(np.random.randn(self.X.shape[1]))
+                
+                raise UserWarning("Values do not match with the `X` , intializing random Values")
+                
+        
+        if biases == None:
+            
+            self.biases = abs(np.random.randn(1))
+        
+        else :
+            
+            if biases.shape[0] == 1:
+                
+                self.biases = biases
+            
+            else :
+                
+                self.biases = abs(np.random.randn(1))
+                
+                raise UserWarning("Values do not match with the `X` , intializing random Values")
+    
+        self.m_weights = [0]
+        self.m_biases = [0]
+    
+        self.predic = []
+        self.losses = []
+    
+        for epochs in range(100):
+        
+            pred = np.sum((weights * self.X).T) + biases
+            
+            loss = np.sum((pred - self.y) ** 2)
+            self.losses.append(loss)
+            
+            if self.nestrov :
 
-            m_weights[epochs + 1] = (momentum * m_weights[epochs] + (1 - momentum) * (-2 * loss))
-            m_biases[epochs + 1] = (momentum * m_biases[epochs] + (1 - momentum) * (-2 * loss))
-        
-        if use_ema:
-            
-            momentum_weights[epochs + 1] = ema_momentum * momentum[epochs] + (1 - ema_momentum) * (momentum_weights[epochs + 1])
-            momentum_biases[epochs + 1] = ema_momentum * momentum[epochs] + (1 - ema_momentum) * (momentum_biases[epochs + 1])
-            
-        if clip_norm != None:
-            
-            weights = np.clip(weights , weights , clip_norm)
-            biases = np.clip(biases , biases , clip_norm)
-        
-        if clip_value != None:
-            
-            m_weights[epochs + 1] = np.clip(m_weights[epochs + 1] , m_weights[epochs + 1] , clip_value)
-            m_biases[epochs + 1] = np.clip(m_biases[epochs + 1] , m_biases[epochs + 1] , clip_value)
-        
-        weights -= (m_weights[epochs + 1] + weight_decay * m_weights[epochs + 1]) * learning_rate
-        biases -= (m_biases[epochs + 1] + weight_decay * m_biases[epochs + 1]) * learning_rate
+                self.m_weights[epochs + 1] = ((self.momentum * self.m_weights[epochs]) + ((1 - self.momentum) * (weights - self.momentum * self.m_weights[epochs])) * (-2 * loss)) 
+                self.m_biases[epochs + 1] = ((self.momentum * self.m_biases[epochs]) + ((1 - self.momentum) * (weights - self.momentum * self.m_biases[epochs])) * (-2 * loss))
 
-    return weights , biases , losses
+            else :
+
+                self.m_weights[epochs + 1] = (self.momentum * self.m_weights[epochs] + (1 - self.momentum) * (-2 * loss))
+                self.m_biases[epochs + 1] = (self.momentum * self.m_biases[epochs] + (1 - self.momentum) * (-2 * loss))
+            
+            if self.use_ema:
+                
+                self.m_weights[epochs + 1] = self.ema_momentum * self.momentum[epochs] + (1 - self.ema_momentum) * (self.m_weights[epochs + 1])
+                self.m_biases[epochs + 1] = self.ema_momentum * self.momentum[epochs] + (1 - self.ema_momentum) * (self.m_biases[epochs + 1])
+                
+            if self.clip_norm != None:
+                
+                weights = np.clip(weights , weights , self.clip_norm)
+                biases = np.clip(biases , biases , self.clip_norm)
+            
+            if self.clip_value != None:
+                
+                self.m_weights[epochs + 1] = np.clip(self.m_weights[epochs + 1] , self.m_weights[epochs + 1] , self.clip_value)
+                self.m_biases[epochs + 1] = np.clip(self.m_biases[epochs + 1] , self.m_biases[epochs + 1] , self.clip_value)
+            
+            weights -= (self.m_weights[epochs + 1] + self.weight_decay * self.m_weights[epochs + 1]) * self.learning_rate
+            biases -= (self.m_biases[epochs + 1] + self.weight_decay * self.m_biases[epochs + 1]) * self.learning_rate
+
+        return weights , biases , losses
 
 # METHOD 2
 
