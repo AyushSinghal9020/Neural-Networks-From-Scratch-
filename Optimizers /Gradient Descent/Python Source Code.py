@@ -62,45 +62,44 @@ class SGD:
         self.losses = []
     
     def compute_gradients(self , weights , biases):
-        
+
         pred = np.sum((weights * self.X).T) + biases
 
         loss = np.sum((pred - self.y) ** 2)
         self.losses.append(loss)
-        
-    
-        for epochs in range(100):
-            
-            if self.nestrov :
 
-                self.m_weights[epochs + 1] = ((self.momentum * self.m_weights[epochs]) + ((1 - self.momentum) * (weights - self.momentum * self.m_weights[epochs])) * (-2 * loss)) 
-                self.m_biases[epochs + 1] = ((self.momentum * self.m_biases[epochs]) + ((1 - self.momentum) * (weights - self.momentum * self.m_biases[epochs])) * (-2 * loss))
+    def update_step(self):
 
-            else :
+        if self.nestrov :
 
-                self.m_weights[epochs + 1] = (self.momentum * self.m_weights[epochs] + (1 - self.momentum) * (-2 * loss))
-                self.m_biases[epochs + 1] = (self.momentum * self.m_biases[epochs] + (1 - self.momentum) * (-2 * loss))
-            
-            if self.use_ema:
+            self.m_weights[epochs + 1] = ((self.momentum * self.m_weights[epochs]) + ((1 - self.momentum) * (weights - self.momentum * self.m_weights[epochs])) * (-2 * loss)) 
+            self.m_biases[epochs + 1] = ((self.momentum * self.m_biases[epochs]) + ((1 - self.momentum) * (weights - self.momentum * self.m_biases[epochs])) * (-2 * loss))
+
+        else :
+
+            self.m_weights[epochs + 1] = (self.momentum * self.m_weights[epochs] + (1 - self.momentum) * (-2 * loss))
+            self.m_biases[epochs + 1] = (self.momentum * self.m_biases[epochs] + (1 - self.momentum) * (-2 * loss))
+
+        if self.use_ema:
+
+            self.m_weights[epochs + 1] = self.ema_momentum * self.momentum[epochs] + (1 - self.ema_momentum) * (self.m_weights[epochs + 1])
+            self.m_biases[epochs + 1] = self.ema_momentum * self.momentum[epochs] + (1 - self.ema_momentum) * (self.m_biases[epochs + 1])
+
                 
-                self.m_weights[epochs + 1] = self.ema_momentum * self.momentum[epochs] + (1 - self.ema_momentum) * (self.m_weights[epochs + 1])
-                self.m_biases[epochs + 1] = self.ema_momentum * self.momentum[epochs] + (1 - self.ema_momentum) * (self.m_biases[epochs + 1])
-                
-                
-        def minimize(self):
-            
-            if self.clip_norm != None:
-                
-                weights = np.clip(weights , weights , self.clip_norm)
-                biases = np.clip(biases , biases , self.clip_norm)
-            
-            if self.clip_value != None:
-                
-                self.m_weights[epochs + 1] = np.clip(self.m_weights[epochs + 1] , self.m_weights[epochs + 1] , self.clip_value)
-                self.m_biases[epochs + 1] = np.clip(self.m_biases[epochs + 1] , self.m_biases[epochs + 1] , self.clip_value)
-            
-            weights -= (self.m_weights[epochs + 1] + self.weight_decay * self.m_weights[epochs + 1]) * self.learning_rate
-            biases -= (self.m_biases[epochs + 1] + self.weight_decay * self.m_biases[epochs + 1]) * self.learning_rate
+    def minimize(self):
+
+        if self.clip_norm != None:
+
+            weights = np.clip(weights , weights , self.clip_norm)
+            biases = np.clip(biases , biases , self.clip_norm)
+
+        if self.clip_value != None:
+
+            self.m_weights[epochs + 1] = np.clip(self.m_weights[epochs + 1] , self.m_weights[epochs + 1] , self.clip_value)
+            self.m_biases[epochs + 1] = np.clip(self.m_biases[epochs + 1] , self.m_biases[epochs + 1] , self.clip_value)
+
+        weights -= (self.m_weights[epochs + 1] + self.weight_decay * self.m_weights[epochs + 1]) * self.learning_rate
+        biases -= (self.m_biases[epochs + 1] + self.weight_decay * self.m_biases[epochs + 1]) * self.learning_rate
 
         return weights , biases , losses
 
