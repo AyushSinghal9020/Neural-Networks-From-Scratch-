@@ -61,12 +61,15 @@ class SGD:
         self.predic = []
         self.losses = []
     
-        for epochs in range(100):
+    def compute_gradients(self , weights , biases):
         
-            pred = np.sum((weights * self.X).T) + biases
-            
-            loss = np.sum((pred - self.y) ** 2)
-            self.losses.append(loss)
+        pred = np.sum((weights * self.X).T) + biases
+
+        loss = np.sum((pred - self.y) ** 2)
+        self.losses.append(loss)
+        
+    
+        for epochs in range(100):
             
             if self.nestrov :
 
