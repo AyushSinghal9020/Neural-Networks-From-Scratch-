@@ -1,6 +1,6 @@
 # METHOD 1
 
-def SGD(X , y , learning_rate = 0.01 , momentum = 0 , nestrov = False , weight_decay = None):
+def SGD(X , y , learning_rate = 0.01 , momentum = 0 , nestrov = False , weight_decay = None , clip_norm = None):
     
     weights = abs(np.random.randn(X.shape[1]))
     biases = abs(np.random.randn(1))
@@ -27,9 +27,12 @@ def SGD(X , y , learning_rate = 0.01 , momentum = 0 , nestrov = False , weight_d
 
             m_weights[epochs + 1] = (momentum * m_weights[epochs] + (1 - momentum) * (-2 * loss))
             m_biases[epochs + 1] = (momentum * m_biases[epochs] + (1 - momentum) * (-2 * loss))
-
             
-        
+        if clip_norm != None:
+            
+            weights = np.clip(weights , weights , clip_norm)
+            biases = np.clip(biases , biases , clip_norm)
+
         weights -= (m_weights[epochs + 1] + weight_decay * m_weights[epochs + 1]) * learning_rate
         biases -= (m_biases[epochs + 1] + weight_decay * m_biases[epochs + 1]) * learning_rate
 
