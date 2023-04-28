@@ -6,7 +6,7 @@ def SGD(X , y , learning_rate = 0.01 , momentum = 0 , nestrov = False , weight_d
     biases = abs(np.random.randn(1))
     
     m_weights = [0] * (100 + 1)
-    _biases = [0] * (100 + 1)
+    m_biases = [0] * (100 + 1)
     
     predic = []
     losses = []
@@ -21,17 +21,17 @@ def SGD(X , y , learning_rate = 0.01 , momentum = 0 , nestrov = False , weight_d
         if nestrov :
 
             m_weights[epochs + 1] = ((momentum * m_weights[epochs]) + ((1 - momentum) * (weights - momentum * m_weights[epochs])) * (-2 * loss)) 
-            _biases[epochs + 1] = ((momentum * _biases[epochs]) + ((1 - momentum) * (weights - momentum * _biases[epochs])) * (-2 * loss))
+            m_biases[epochs + 1] = ((momentum * m_biases[epochs]) + ((1 - momentum) * (weights - momentum * m_biases[epochs])) * (-2 * loss))
 
         else :
 
             m_weights[epochs + 1] = (momentum * m_weights[epochs] + (1 - momentum) * (-2 * loss))
-            _biases[epochs + 1] = (momentum * _biases[epochs] + (1 - momentum) * (-2 * loss))
+            m_biases[epochs + 1] = (momentum * m_biases[epochs] + (1 - momentum) * (-2 * loss))
 
             
         
-        weights -= m_weights[epochs + 1] * learning_rate
-        biases -= _biases[epochs + 1] * learning_rate
+        weights -= (m_weights[epochs + 1] + weight_decay * m_weights[epochs + 1]) * learning_rate
+        biases -= (m_biases[epochs + 1] + weight_decay * m_biases[epochs + 1]) * learning_rate
 
     return weights , biases , losses
 
