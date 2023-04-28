@@ -1,5 +1,16 @@
 # METHOD 1
 
+weights = abs(np.random.randn(1))
+biases = abs(np.random.randn(1))
+losses = []
+for _ in range(100):
+    weights -= -2 * loss * 0.01
+    biases -= -2 * loss * 0.01
+    loss = (60 - (weights * 30 + biases))
+    losses.append(loss)
+
+# METHOD 2
+
 class gradient_descent:
     
     def __init__(self , X , y , lr = 1e-4 , epochs = 100) : 
@@ -54,7 +65,7 @@ class gradient_descent:
 
             params = self.backward(params , self.X , self.lr , grad)
 
-# METHOD 2
+# METHOD 3
 
 class simple_gradient_descent:
 
@@ -105,7 +116,7 @@ class simple_gradient_descent:
 
         return self.new_biases , self.new_weights
     
-# METHOD 3
+# METHOD 4
 def MSE(predicted , actual):
     
     error = ((predicted - actual) ** 2).mean()
