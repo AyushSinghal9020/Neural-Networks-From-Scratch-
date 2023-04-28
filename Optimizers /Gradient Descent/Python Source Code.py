@@ -1,6 +1,6 @@
 # METHOD 1
 
-def SGD(X , y):
+def SGD(X , y , learning_rate = 0.01):
     
     weights = abs(np.random.randn(X.shape[1]))
     biases = abs(np.random.randn(1))
@@ -15,8 +15,8 @@ def SGD(X , y):
         loss = np.sum((pred - y) ** 2)
         losses.append(loss)
         
-        weights -= -2 * loss * 0.01
-        biases -= -2 * loss * 0.01
+        weights -= -2 * loss * learning_rate
+        biases -= -2 * loss * learning_rate
 
     return weights , biases , losses
 
