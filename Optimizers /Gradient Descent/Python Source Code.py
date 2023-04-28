@@ -30,7 +30,8 @@ def SGD(X , y , learning_rate = 0.01 , momentum = 0 , nestrov = False , weight_d
         
         if use_ema:
             
-            pass
+            momentum_weights[epochs + 1] = ema_momentum * momentum[epochs] + (1 - ema_momentum) * (momentum_weights[epochs + 1])
+            momentum_biases[epochs + 1] = ema_momentum * momentum[epochs] + (1 - ema_momentum) * (momentum_biases[epochs + 1])
             
         if clip_norm != None:
             
