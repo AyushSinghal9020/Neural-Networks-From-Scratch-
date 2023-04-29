@@ -1,12 +1,15 @@
 # METHOD 1
 
-def rms_prop(X , y , learning_rate = 0.01 , rho = 0.9):
+def rms_prop(X , y , learning_rate = 0.01 , rho = 0.9 , momentum = 0):
     
     weights = abs(np.random.randn(X.shape[1]))
     biases = abs(np.random.randn(1))
 
     m_weights = 0
     m_biases = 0
+
+    u_weights = 0
+    u_biases = 0
 
     predic = []
 
@@ -17,11 +20,14 @@ def rms_prop(X , y , learning_rate = 0.01 , rho = 0.9):
         loss = np.sum(pred - y)
         losses.append(loss)
 
-        l_weights = rho * l_weights + (1 - rho) * (-2 * loss)
-        l_biases = rho * l_biases + (1 - rho) * (-2 * loss)
+        u_weights = rho * l_weights + (1 - rho) * (-2 * loss)
+        u_biases = rho * l_biases + (1 - rho) * (-2 * loss)
+
+        m_weights = momentum * m_weights + (1 - momentum) * loss
+        m_biases = momentum * m_biases + (1 - momentum) * loss
         
-        weights -= 1/np.sqrt(l_weights + 1e-6) * learning_rate
-        biases -= 1/np.sqrt(l_biases + 1e-6) * learning_rate
+        weights -= (1/np.sqrt(u_weights + 1e-6) * 1 / np.sqrt(m_weights + 1e-6)) * learning_rate
+        biases -= (1/np.sqrt(u_biases + 1e-6) * 1 / np.sqrt(m_boases + 1e-6)) * learning_rate
 
     return weights , biases , losses
 
