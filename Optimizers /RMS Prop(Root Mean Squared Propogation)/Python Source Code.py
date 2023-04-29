@@ -57,12 +57,15 @@ class rms_prop:
 
         self.predic = []
 
-    # for epochs in range(100):
+    def compute_gradients(self , weights , biases):
 
-    #     pred = np.sum((weights * X).T) + biases
+        pred = np.sum((weights * X).T) + biases
         
-    #     loss = np.sum(pred - y)
-    #     losses.append(loss)
+        loss = np.sum(pred - y)
+        
+        yield loss
+        
+        losses.append(loss)
 
     #     u_weights = rho * l_weights + (1 - rho) * (-2 * loss)
     #     u_biases = rho * l_biases + (1 - rho) * (-2 * loss)
