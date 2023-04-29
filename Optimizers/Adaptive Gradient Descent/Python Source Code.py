@@ -61,10 +61,12 @@ class adagrad:
         grad[1] = -2 * loss
 
         yield grad
+    def update_step(self):
 
-#     if ema: 
+        if ema: 
 
-#         grad = ema_momentum * grad + (1 - ema_momentum) * grad
+            grad = ema_momentum * grad + (1 - ema_momentum) * grad
+    
     def minimize(self):
         
         if clip_norm != None:
