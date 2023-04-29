@@ -1,10 +1,10 @@
-def adagrad(X , y):
+def adagrad(X , y , learning_rate = 0.01):
     
     weights = abs(np.random.randn(X.shape[1]))
     biases = abs(np.random.randn(1))
 
     losses = []
-    grad = [0] * 2 # Intialize of only 2 elements
+    grad = [0] * 2
 
     for _ in range(100):
 
@@ -13,11 +13,11 @@ def adagrad(X , y):
         loss = np.sum((pred - y) ** 2)
         losses.append(loss)
         
-        grad[1] = -2 * loss # calculate the gradient for 1 epoch
+        grad[1] = -2 * loss
         
-        weights -= np.sqrt(-1 / (grad[1] + 1e-7)) * grad[0] * 0.01#|Update the weights using gradient 
-        biases -= np.sqrt(-1 / (grad[1] + 1e-7)) * grad[0] * 0.01#-|
+        weights -= np.sqrt(-1 / (grad[1] + 1e-7)) * grad[0] * learning_rate 
+        biases -= np.sqrt(-1 / (grad[1] + 1e-7)) * grad[0] * learning_rate
 
-        grad[1] = grad[0] # Replace the 1 gradient with 0 and move on 
+        grad[1] = grad[0]
 
     return weights , biases , losses
