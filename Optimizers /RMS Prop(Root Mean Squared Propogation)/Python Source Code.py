@@ -77,21 +77,22 @@ class rms_prop:
             
     #         m_weights = ema_momentum * m_weights + (1 - ema_momentum) * -2 * loss
     #         m_biases = ema_momentum * m_biases + (1 - ema_momentum) * -2 * loss
+    def minimize(self):
+        
+        if self.clip_norm != None:
 
-    #     if clip_norm != None:
+            self.weights = np.clip(self.weights , self.weights , self.clip_norm)
+            self.biases = np.clip(self.biases , self.biases , self.clip_norm)
 
-    #         weights = np.clip(weights , weights , clip_norm)
-    #         biases = np.clip(biases , biases , clip_norm)
-
-    #     if clip_value != None:
+        if self.clip_value != None:
             
-    #         weights = np.clip(m_weigts , m_weights , clip_value)
-    #         biases = np.clip(m_biases , m_biases , clip_value)
+            self.weights = np.clip(self.m_weights , self.m_weights , self.clip_value)
+            self.biases = np.clip(self.m_biases , self.m_biases , self.clip_value)
             
-    #     weights -= (1/np.sqrt(u_weights + epsilon) * 1 / np.sqrt(m_weights + epsilon)) * learning_rate
-    #     biases -= (1/np.sqrt(u_biases + epsilon) * 1 / np.sqrt(m_boases + epsilon)) * learning_rate
+        self.weights -= (1/np.sqrt(self.u_weights + self.epsilon) * 1 / np.sqrt(self.m_weights + self.epsilon)) * learning_rate
+        self.biases -= (1/np.sqrt(self.u_biases + self.epsilon) * 1 / np.sqrt(self.m_biases + self.epsilon)) * learning_rate
 
-    # return weights , biases , losses
+        return self.weights , self.biases , losses
 
 
 # METHOD 2
