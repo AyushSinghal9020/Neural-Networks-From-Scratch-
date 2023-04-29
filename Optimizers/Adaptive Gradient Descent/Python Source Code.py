@@ -1,4 +1,4 @@
-def adagrad(X , y , learning_rate = 0.01):
+def adagrad(X , y , learning_rate = 0.01 , epsilon = 1e-7):
     
     weights = abs(np.random.randn(X.shape[1]))
     biases = abs(np.random.randn(1))
@@ -15,8 +15,8 @@ def adagrad(X , y , learning_rate = 0.01):
         
         grad[1] = -2 * loss
         
-        weights -= np.sqrt(-1 / (grad[1] + 1e-7)) * grad[0] * learning_rate 
-        biases -= np.sqrt(-1 / (grad[1] + 1e-7)) * grad[0] * learning_rate
+        weights -= np.sqrt(-1 / (grad[1] + epsilon)) * grad[0] * learning_rate 
+        biases -= np.sqrt(-1 / (grad[1] + epsilon)) * grad[0] * learning_rate
 
         grad[1] = grad[0]
 
