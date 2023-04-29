@@ -66,17 +66,19 @@ class rms_prop:
         yield loss
         
         losses.append(loss)
-
-    #     u_weights = rho * l_weights + (1 - rho) * (-2 * loss)
-    #     u_biases = rho * l_biases + (1 - rho) * (-2 * loss)
-
-    #     m_weights = momentum * m_weights + (1 - momentum) * loss
-    #     m_biases = momentum * m_biases + (1 - momentum) * loss
+    def update_step(self , loss):
         
-    #     if ema:
+        self.u_weights = self.rho * self.u_weights + (1 - self.rho) * (-2 * loss)
+        self.u_biases = self.rho * self.u_biases + (1 - self.rho) * (-2 * loss)
+
+        self.m_weights = self.momentum * self.m_weights + (1 - self.momentum) * loss
+        self.m_biases = self.momentum * self.m_biases + (1 - self.momentum) * loss
+        
+        if self.ema:
             
-    #         m_weights = ema_momentum * m_weights + (1 - ema_momentum) * -2 * loss
-    #         m_biases = ema_momentum * m_biases + (1 - ema_momentum) * -2 * loss
+            self.m_weights = self.ema_momentum * self.m_weights + (1 - self.ema_momentum) * -2 * loss
+            self.m_biases = self.ema_momentum * self.m_biases + (1 - self.ema_momentum) * -2 * loss
+    
     def minimize(self):
         
         if self.clip_norm != None:
@@ -86,11 +88,11 @@ class rms_prop:
 
         if self.clip_value != None:
             
-            self.weights = np.clip(self.m_weights , self.m_weights , self.clip_value)
+            self.weights = np.clip(m_weigts , self.m_weights , self.clip_value)
             self.biases = np.clip(self.m_biases , self.m_biases , self.clip_value)
             
-        self.weights -= (1/np.sqrt(self.u_weights + self.epsilon) * 1 / np.sqrt(self.m_weights + self.epsilon)) * learning_rate
-        self.biases -= (1/np.sqrt(self.u_biases + self.epsilon) * 1 / np.sqrt(self.m_biases + self.epsilon)) * learning_rate
+        self.weights -= (1/np.sqrt(self.u_weights + self.epsilon) * 1 / np.sqrt(self.m_weights + self.epsilon)) * self.learning_rate
+        self.biases -= (1/np.sqrt(self.u_biases + self.epsilon) * 1 / np.sqrt(self.m_biases + self.epsilon)) * self.learning_rate
 
         return self.weights , self.biases , losses
 
