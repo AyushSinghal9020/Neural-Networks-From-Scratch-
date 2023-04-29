@@ -1,4 +1,4 @@
-def adagrad(X , y , learning_rate = 0.01 , epsilon = 1e-7 , clip_norm = None , clip_value = None):
+def adagrad(X , y , learning_rate = 0.01 , epsilon = 1e-7 , clip_norm = None , clip_value = None , ema = False):
     
     weights = abs(np.random.randn(X.shape[1]))
     biases = abs(np.random.randn(1))
@@ -14,6 +14,8 @@ def adagrad(X , y , learning_rate = 0.01 , epsilon = 1e-7 , clip_norm = None , c
         losses.append(loss)
         
         grad[1] = -2 * loss
+
+        if ema: pass
 
         if clip_norm != None:
             
