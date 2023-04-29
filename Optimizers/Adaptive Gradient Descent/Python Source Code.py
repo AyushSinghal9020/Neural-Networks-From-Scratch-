@@ -65,19 +65,20 @@ class adagrad:
 #     if ema: 
 
 #         grad = ema_momentum * grad + (1 - ema_momentum) * grad
-
-#     if clip_norm != None:
+    def minimize(self):
         
-#         weights = np.clip(weights , weights , clip_norm)
-#         biases = np.clip(biases , biases , clip_norm)
+        if clip_norm != None:
+            
+            weights = np.clip(weights , weights , clip_norm)
+            biases = np.clip(biases , biases , clip_norm)
 
-#     if clip_value != None:
+        if clip_value != None:
 
-#         grad = np.clip(grad , grad , clip_value)
-    
-#     weights -= np.sqrt(-1 / (grad[1] + epsilon)) * grad[0] * learning_rate 
-#     biases -= np.sqrt(-1 / (grad[1] + epsilon)) * grad[0] * learning_rate
+            grad = np.clip(grad , grad , clip_value)
+        
+        weights -= np.sqrt(-1 / (grad[1] + epsilon)) * grad[0] * learning_rate 
+        biases -= np.sqrt(-1 / (grad[1] + epsilon)) * grad[0] * learning_rate
 
-#     grad[1] = grad[0]
+        grad[1] = grad[0]
 
-# return weights , biases , losses
+        return weights , biases , losses
