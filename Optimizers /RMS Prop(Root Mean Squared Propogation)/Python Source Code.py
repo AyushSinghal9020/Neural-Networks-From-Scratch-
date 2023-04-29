@@ -1,50 +1,94 @@
 # METHOD 1
 
-def rms_prop(X , y , learning_rate = 0.01 , rho = 0.9 , momentum = 0 , epsilon = 1e-7 , clip_norm = None , clip_value = None , ema = False , ema_momentum = 0):
-    
-    weights = abs(np.random.randn(X.shape[1]))
-    biases = abs(np.random.randn(1))
-
-    m_weights = 0
-    m_biases = 0
-
-    u_weights = 0
-    u_biases = 0
-
-    predic = []
-
-    for epochs in range(100):
-
-        pred = np.sum((weights * X).T) + biases
+class rms_prop:
+    def __init__(X , y , 
+                 learning_rate = 0.01 , rho = 0.9 , 
+                 momentum = 0 , epsilon = 1e-7 , 
+                 clip_norm = None , clip_value = None , 
+                 ema = False , ema_momentum = 0):
         
-        loss = np.sum(pred - y)
-        losses.append(loss)
+        self.X = X
+        self.y = y
+        self.learning_rate = learning_rate
+        self.rho = rho
+        self.momentum = momentum
+        self.epsilon = epsilon
+        self.clip_norm = clip-norm
+        self.ema = ema
+        self.ema_momentum = ema_momentum
 
-        u_weights = rho * l_weights + (1 - rho) * (-2 * loss)
-        u_biases = rho * l_biases + (1 - rho) * (-2 * loss)
-
-        m_weights = momentum * m_weights + (1 - momentum) * loss
-        m_biases = momentum * m_biases + (1 - momentum) * loss
+    def build(self , weights = None , biases = None):
         
-        if ema:
+        if weights == None:
             
-            m_weights = ema_momentum * m_weights + (1 - ema_momentum) * -2 * loss
-            m_biases = ema_momentum * m_biases + (1 - ema_momentum) * -2 * loss
-
-        if clip_norm != None:
-
-            weights = np.clip(weights , weights , clip_norm)
-            biases = np.clip(biases , biases , clip_norm)
-
-        if clip_value != None:
+            self.weights = abs(np.random.randn(self.X.shape[1]))
+        
+        else :
             
-            weights = np.clip(m_weigts , m_weights , clip_value)
-            biases = np.clip(m_biases , m_biases , clip_value)
+            if weights.shape[1] == self.X.shape[1]:
+                
+                self.weights = weights
             
-        weights -= (1/np.sqrt(u_weights + epsilon) * 1 / np.sqrt(m_weights + epsilon)) * learning_rate
-        biases -= (1/np.sqrt(u_biases + epsilon) * 1 / np.sqrt(m_boases + 1e-6)) * learning_rate
+            else :
+                
+                raise UserWarning("Shapes do not match. Using random variables")
+                self.weights = abs(np.random.randn(self.X.shape[1]))
 
-    return weights , biases , losses
+        if biases == None:
+            
+            self.biases = abs(np.random.randn(1))
+        
+        else :
+            
+            if baises.shape[1] == 1:
+                
+                self.weights = weights
+            
+            else :
+                
+                raise UserWarning("Shapes do not match. Using random variables")
+                self.weights = abs(np.random.randn(self.X.shape[1]))
+
+        self.m_weights = 0
+        self.m_biases = 0
+
+        self.u_weights = 0
+        self.u_biases = 0
+
+        self.predic = []
+
+    # for epochs in range(100):
+
+    #     pred = np.sum((weights * X).T) + biases
+        
+    #     loss = np.sum(pred - y)
+    #     losses.append(loss)
+
+    #     u_weights = rho * l_weights + (1 - rho) * (-2 * loss)
+    #     u_biases = rho * l_biases + (1 - rho) * (-2 * loss)
+
+    #     m_weights = momentum * m_weights + (1 - momentum) * loss
+    #     m_biases = momentum * m_biases + (1 - momentum) * loss
+        
+    #     if ema:
+            
+    #         m_weights = ema_momentum * m_weights + (1 - ema_momentum) * -2 * loss
+    #         m_biases = ema_momentum * m_biases + (1 - ema_momentum) * -2 * loss
+
+    #     if clip_norm != None:
+
+    #         weights = np.clip(weights , weights , clip_norm)
+    #         biases = np.clip(biases , biases , clip_norm)
+
+    #     if clip_value != None:
+            
+    #         weights = np.clip(m_weigts , m_weights , clip_value)
+    #         biases = np.clip(m_biases , m_biases , clip_value)
+            
+    #     weights -= (1/np.sqrt(u_weights + epsilon) * 1 / np.sqrt(m_weights + epsilon)) * learning_rate
+    #     biases -= (1/np.sqrt(u_biases + epsilon) * 1 / np.sqrt(m_boases + epsilon)) * learning_rate
+
+    # return weights , biases , losses
 
 
 # METHOD 2
