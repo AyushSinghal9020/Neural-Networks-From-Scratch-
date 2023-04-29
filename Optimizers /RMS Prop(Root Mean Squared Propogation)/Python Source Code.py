@@ -1,14 +1,13 @@
 # METHOD 1
 
-def SGD(X , y , learning_rate = 0.01 , momentum = 0):
+def rms_prop(X , y):
     
     weights = abs(np.random.randn(X.shape[1]))
     biases = abs(np.random.randn(1))
 
-    m_weights = [0] * (100 + 1)
-    m_biases = [0] * (100 + 1)
+    m_weights = 0
+    m_biases = 0
 
-    predic = []
     losses = []
 
     for epochs in range(100):
@@ -18,11 +17,11 @@ def SGD(X , y , learning_rate = 0.01 , momentum = 0):
         loss = np.sum(pred - y)
         losses.append(loss)
 
-        m_weights[epochs + 1] = momentum * m_weights[epochs] + (1 - momentum) * (-2 * loss)
-        m_biases[epochs + 1] = momentum * m_biases[epochs] + (1 - momentum) * (-2 * loss)
+        l_weights = 0 * l_weights + (1 - 0) * (-2 * loss)
+        l_biases = 0 * l_biases + (1 - 0) * (-2 * loss)
         
-        weights -= m_weights[epochs + 1] * 0.01
-        biases -= m_biases[epochs + 1] * 0.01
+        weights -= 1/np.sqrt(l_weights + 1e-6) * 0.01
+        biases -= 1/np.sqrt(l_biases + 1e-6) * 0.01
 
     return weights , biases , losses
 
