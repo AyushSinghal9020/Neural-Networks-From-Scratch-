@@ -50,31 +50,34 @@ class adagrad:
         self.losses = []
         self.grad = np.zeros(2)
 
-    # for _ in range(100):
+    def compute_gradient(self , weights , biases):
 
-    #     pred = np.sum((weights * X).T) + biases
+        pred = np.sum((weights * X).T) + biases
         
-    #     loss = np.sum((pred - y) ** 2)
-    #     losses.append(loss)
+        loss = np.sum((pred - y) ** 2)
         
-    #     grad[1] = -2 * loss
-
-    #     if ema: 
-
-    #         grad = ema_momentum * grad + (1 - ema_momentum) * grad
-
-    #     if clip_norm != None:
-            
-    #         weights = np.clip(weights , weights , clip_norm)
-    #         biases = np.clip(biases , biases , clip_norm)
-
-    #     if clip_value != None:
-
-    #         grad = np.clip(grad , grad , clip_value)
+        losses.append(loss)
         
-    #     weights -= np.sqrt(-1 / (grad[1] + epsilon)) * grad[0] * learning_rate 
-    #     biases -= np.sqrt(-1 / (grad[1] + epsilon)) * grad[0] * learning_rate
+        grad[1] = -2 * loss
 
-    #     grad[1] = grad[0]
+        yield grad
 
-    # return weights , biases , losses
+#     if ema: 
+
+#         grad = ema_momentum * grad + (1 - ema_momentum) * grad
+
+#     if clip_norm != None:
+        
+#         weights = np.clip(weights , weights , clip_norm)
+#         biases = np.clip(biases , biases , clip_norm)
+
+#     if clip_value != None:
+
+#         grad = np.clip(grad , grad , clip_value)
+    
+#     weights -= np.sqrt(-1 / (grad[1] + epsilon)) * grad[0] * learning_rate 
+#     biases -= np.sqrt(-1 / (grad[1] + epsilon)) * grad[0] * learning_rate
+
+#     grad[1] = grad[0]
+
+# return weights , biases , losses
