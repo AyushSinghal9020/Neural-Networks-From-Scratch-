@@ -15,7 +15,9 @@ def adagrad(X , y , learning_rate = 0.01 , epsilon = 1e-7 , clip_norm = None , c
         
         grad[1] = -2 * loss
 
-        if ema: pass
+        if ema: 
+
+            grad = ema_momentum * grad + (1 - ema_momentum) * grad
 
         if clip_norm != None:
             
