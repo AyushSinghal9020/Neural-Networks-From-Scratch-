@@ -1,6 +1,6 @@
 # METHOD 1
 
-def rms_prop(X , y , learning_rate = 0.01 , rho = 0.9 , momentum = 0 , epsilon = 1e-7 , clip_norm = None , clip_value = None):
+def rms_prop(X , y , learning_rate = 0.01 , rho = 0.9 , momentum = 0 , epsilon = 1e-7 , clip_norm = None , clip_value = None , ema = False):
     
     weights = abs(np.random.randn(X.shape[1]))
     biases = abs(np.random.randn(1))
@@ -25,6 +25,8 @@ def rms_prop(X , y , learning_rate = 0.01 , rho = 0.9 , momentum = 0 , epsilon =
 
         m_weights = momentum * m_weights + (1 - momentum) * loss
         m_biases = momentum * m_biases + (1 - momentum) * loss
+        
+        if ema:pass
 
         if clip_norm != None:
 
