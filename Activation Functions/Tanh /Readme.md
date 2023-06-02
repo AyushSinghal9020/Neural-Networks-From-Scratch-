@@ -1,5 +1,5 @@
 # Tanh
-<img src = "https://production-media.paperswithcode.com/methods/Screen_Shot_2020-05-27_at_4.23.22_PM_dcuMBJl.png">
+<img src = "https://production-media.paperswithcode.com/methods/Screen_Shot_2020-05-27_at_4.23.22_PM_dcuMBJl.png" width = 400>
 
 The hyperbolic tangent function, or tanh, is a popular activation function used in neural networks. It maps input values to a range between -1 and 1/
 
