@@ -1,5 +1,5 @@
 ## SELU (Scaled Exponential Linear Unit)
-<img src = "https://iq.opengenus.org/content/images/2022/01/SELU.png">
+<img src = "https://iq.opengenus.org/content/images/2022/01/SELU.png" width = 400>
 
 The Scaled Exponential Linear Unit (SELU) is an activation function used in artificial neural networks that has gained popularity due to its ability to improve training stability and model performance.
 
