@@ -1,5 +1,5 @@
 ## Softplus Activation Function 
-<img src = "https://pytorch.org/docs/stable/_images/Softplus.png">
+<img src = "https://pytorch.org/docs/stable/_images/Softplus.png" width = 400>
 
 The Softplus activation function is a type of non-linear activation function used in neural networks. The softplus function has a similar shape to the ReLU activation function but with a smoothed out slope. It maps any input value to a positive output value, which makes it suitable for activations in the output layer for regression problems where the output should be a positive value.
 
