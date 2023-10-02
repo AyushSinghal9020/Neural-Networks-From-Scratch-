@@ -15,36 +15,20 @@ class adagrad:
     
     def build(self , weights = None , biases = None):
     
-        if weights == None:
-            
-            self.weights = abs(np.random.randn(self.X.shape[1]))
-        
+        if weights == None:self.weights = abs(np.random.randn(self.X.shape[1]))
         else :
-            
-            if weights.shape[0] == self.X.shape[1]:
-                
-                self.weights = weights
-            
+        
+            if weights.shape[0] == self.X.shape[1]:self.weights = weights
             else :
-                
-                raise UserWarning("Shapes do not match , initalizing random weights")
-                    
+                raise UserWarning("Shapes do not match , initalizing random weights")  
                 self.weights = abs(np.random.randn(self.X.shape[1]))
         
-        if biases == None:
-            
-            self.biases = abs(np.random.randn(1))
-        
+        if biases == None:self.biases = abs(np.random.randn(1))
         else :
             
-            if biases.shape[0] == 1:
-                
-                self.biases = biases
-            
+            if biases.shape[0] == 1:self.biases = biases
             else :
-                
-                raise UserWarning("Shapes do not match , initalizing random biases")
-                    
+                raise UserWarning("Shapes do not match , initalizing random biases")  
                 self.biases = abs(np.random.randn(1))
 
         self.losses = []
@@ -53,29 +37,23 @@ class adagrad:
     def compute_gradient(self , weights , biases):
 
         pred = np.sum((weights * X).T) + biases
-        
         loss = np.sum((pred - y) ** 2)
-        
         losses.append(loss)
-        
         grad[1] = -2 * loss
 
         yield grad
+    
     def update_step(self):
 
-        if ema: 
-
-            grad = ema_momentum * grad + (1 - ema_momentum) * grad
+        if ema: grad = ema_momentum * grad + (1 - ema_momentum) * grad
     
     def minimize(self):
         
-        if clip_norm != None:
-            
+        if clip_norm:
             weights = np.clip(weights , weights , clip_norm)
             biases = np.clip(biases , biases , clip_norm)
 
-        if clip_value != None:
-
+        if clip_value:
             grad = np.clip(grad , grad , clip_value)
         
         weights -= np.sqrt(-1 / (grad[1] + epsilon)) * grad[0] * learning_rate 
